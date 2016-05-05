@@ -25,9 +25,9 @@ import (
 )
 
 type JData struct {
-	Epoch  int64
-	Offset int64
-	Bytes  int64
+	Epoch  int
+	Offset int
+	Bytes  int
 }
 
 func main() {
@@ -41,7 +41,7 @@ func main() {
 	//Decode JSON using json unmarshal
 
 	//placeholder variable for decoded data
-	var dataDecoded interface{}
+	dataDecoded := []JData{}
 
 	err := json.Unmarshal(sampleData, &dataDecoded)
 	if err != nil {
@@ -50,6 +50,18 @@ func main() {
 	fmt.Println(dataDecoded)
 
 	//Perform calculations
-
+	peakBytes := 0
+	peakTime := 0
+	for _, v := range dataDecoded {
+		//fmt.Println(k)
+		//fmt.Println(v.Epoch, "==>", v.Bytes)
+		if v.Bytes > peakBytes {
+			peakBytes = v.Bytes
+			peakTime = v.Epoch
+		}
+	}
+	fmt.Println("Sample Count: ", len(dataDecoded))
+	fmt.Println("Peak Max Bytes Observed: ", peakBytes)
+	fmt.Println("Was Observed at this ms epoch: ", peakTime)
 	//Etc...
 }
